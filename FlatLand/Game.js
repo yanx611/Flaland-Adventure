@@ -1,3 +1,5 @@
+var allShapes=[];
+
 
 class fallingShape
 {
@@ -28,11 +30,11 @@ class fallingShape
 		this.ctx.fill();
 	}
 	
-	redraw(local)
+	redraw()
 	{
-		local.ctx.clearRect(0, 0, 300/*this.canvas.width*/, 150/*this.canvas.height*/);
-		local.regularPolygon(30,30,local.rotation);
-		local.rotation=local.rotation+5;
+		//this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.regularPolygon(this.startX,this.startY,this.rotation);
+		this.rotation=this.rotation+5;
 	}
 	
 	constructor(sides, canvas, ctx, radius, startX, startY)
@@ -46,15 +48,31 @@ class fallingShape
 		this.rotation=0;
 		this.X=0;
 		this.Y=1;
-		var intervalID= setInterval(this.redraw, 20,this);
+		addToRedraw(this);
 		//var intervalID = setInterval(function(){alert("Interval reached");}, 5000);
 	}
 
 }
-
+function redrawAll(canvas,ctx)
+{
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	for(var i=0; i<allShapes.length;i++)
+	{
+		allShapes[i].redraw();
+	}
+}
+function addToRedraw(Shape)
+{
+	allShapes.push(Shape);
+}
 
 function onloadHandler(){
 	var c=document.getElementById("myCanvas");
 	var ctx=c.getContext("2d");
 	new fallingShape(5, c, ctx, 25, 30, 30);
+	new fallingShape(4, c, ctx, 25, 75, 75);
+	new fallingShape(3, c, ctx, 25, 75, 25);
+	new fallingShape(6, c, ctx, 25, 150, 25);
+	new fallingShape(12, c, ctx, 25, 150, 75);
+	var intervalID= setInterval(redrawAll, 20,c,ctx);
 }
