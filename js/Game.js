@@ -143,11 +143,11 @@ function keyPress()
 function onloadHandler(){
 	var c=document.getElementById("myCanvas");
 	var ctx=c.getContext("2d");
-	new fallingShape(5, ctx, 50, 60, 30, 1, 1, "#22FF00");
-	new fallingShape(4, ctx, 25, 200, 75, 2, 2, "#660000");
-	new fallingShape(3, ctx, 25, 260, 25, 3, 3, "#2850FF");
-	new fallingShape(6, ctx, 25, 320, 25, 4, 4, "#000000");
-	new fallingShape(12, ctx, 25, 400, 75, 5, 5, "#220022");
+	new fallingShape(5, ctx, 50, 60, 30, 1, 1, "#FFC200");
+	new fallingShape(4, ctx, 25, 200, 75, 2, 2, "#FF5B00");
+	new fallingShape(3, ctx, 25, 260, 25, 3, 3, "#B80028");
+	new fallingShape(6, ctx, 25, 320, 25, 4, 4, "#84002E");
+	new fallingShape(12, ctx, 25, 400, 75, 5, 5, "#4AC0F2");
 	var intervalID= setInterval(redrawAll, 10,c,ctx);
 	mainCharacter= new mainChar(c,ctx);
 	
