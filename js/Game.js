@@ -1,6 +1,13 @@
 var allShapes=[];
 var mainCharacter;
+var gamemusic
 
+function musicplay()
+{
+	gamemusic= new sound(maintheme.wav;
+	gamemusic= play();
+	gamemusic.loop=true;
+}
 
 class mainChar
 {
