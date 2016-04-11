@@ -1,18 +1,19 @@
 var allShapes=[];
 var mainCharacter;
-var gamemusic
 
-function musicplay()
-{
-	gamemusic= new sound(maintheme.wav);
-	gamemusic= play();
-	gamemusic.loop=true;
-}
 
 class mainChar
 {
 	redraw(canvas)
 	{
+		this.rot=this.rot+this.rotSpeed;
+		this.Xpos=this.Xpos+this.moveSpeed;
+		if(this.rot>360)
+			this.rot-=360;
+		if(this.Xpos<-this.length)
+			this.Xpos=canvas.width+this.length;
+		if(this.Xpos>canvas.width+this.length)
+			this.Xpos=-this.length;
 		this.ctx.strokeStyle="#000000";
 		this.ctx.beginPath();
 		this.ctx.moveTo(this.Xpos-this.length*Math.cos(this.rot*Math.PI/180),this.Ypos-this.length*Math.sin(this.rot*Math.PI/180));
@@ -29,15 +30,25 @@ class mainChar
 		this.rot=0;
 		this.rotSpeed=5;
 		this.moveSpeed=5;
+		this.rotBaseSpeed=3;
+		this.moveBaseSpeed=3;
+		this.rotSpeed=0;
+		this.moveSpeed=0;
+		this.moveFlag=0;
+		this.rotFlag=0;
 		addToRedraw(this);
 	}
-
-	updateVals(rotationSign, positionSign)
+	updateMoveVal(positionSign, keyFlag)
 	{
-		this.rot+=this.rotSpeed*rotationSign;
-		this.Xpos+=this.moveSpeed*positionSign;
-		if(this.rot>360)
-			this.rot-=360;
+		this.moveSpeed=this.moveBaseSpeed*positionSign*keyFlag;
+		//if(keyFlag==1)
+		//console.log("Move true");
+	}
+	updateRotVal(rotationSign, keyFlag)
+	{
+		this.rotSpeed=this.rotBaseSpeed*rotationSign*keyFlag;
+		//if(keyFlag==1)
+		//console.log("Rot true");
 	}
 }
 
@@ -50,14 +61,14 @@ class fallingShape
 		var vertex= [[]]; 	//1st spot is which vertex, second is x or y
 		for(var i=0; i<this.sides;i++)
 		{
-			if (!vertex[i])
+			if (!vertex[i]) 
 			{
 				vertex[i] = [];
 			}
 			vertex[i][this.X]=centerX+this.radius*Math.cos((Math.PI/180)*(angle*i+rot));
 			vertex[i][this.Y]=centerY+this.radius*Math.sin((Math.PI/180)*(angle*i+rot));
 		}
-
+		
 		this.ctx.beginPath();
 		this.ctx.moveTo(vertex[0][this.X],vertex[0][this.Y]);
 		for(var i=1; i< this.sides; i++)
@@ -68,7 +79,7 @@ class fallingShape
 		this.ctx.closePath();
 		this.ctx.fill();
 	}
-
+	
 	redraw(canvas)
 	{
 		this.regularPolygon(this.Xpos,this.Ypos,this.rotation);
@@ -78,9 +89,9 @@ class fallingShape
 			this.rotation-360;
 		if(this.Ypos>canvas.height+this.radius)
 			this.Ypos=-this.radius;
-
+		
 	}
-
+	
 	constructor(sides, ctx, radius, startX, startY, rotSpeed, fallSpeed, color)
 	{
 		this.sides=sides;
@@ -111,34 +122,37 @@ function addToRedraw(Shape)
 	allShapes.push(Shape);
 }
 
-
-function keyPress()
+	
+function keyPress(KeyState)
 {
 	var e=e||event;
+	//console.log("Code= "+e.keyCode);
 	switch(e.keyCode)
 	{
 		case 37: //left
 		{	//roation sign, position sign
-			mainCharacter.updateVals(-1,0);
+			mainCharacter.updateRotVal(-1,KeyState);
 			break;
 		}
 		case 39: //right
 		{
-			mainCharacter.updateVals(1,0);
+			mainCharacter.updateRotVal(1,KeyState);
 			break;
 		}
-		case 65:
+		case 65://A
+		case 97:
 		{
-			mainCharacter.updateVals(0,-1);
+			mainCharacter.updateMoveVal(-1,KeyState);
 			break;
 		}
-		case 68:
+		case 68://D
+		case 100:
 		{
-			mainCharacter.updateVals(0,1);
+			mainCharacter.updateMoveVal(1,KeyState);
 			break;
 		}
 		case 38: //up
-		case 40: //down
+		case 40: //down 
 		default:
 		{
 			break;
@@ -146,7 +160,8 @@ function keyPress()
 	}
 }
 
-
+function gameStart()
+{}
 function onloadHandler(){
 	var c=document.getElementById("myCanvas");
 	var ctx=c.getContext("2d");
@@ -157,7 +172,7 @@ function onloadHandler(){
 	var fallspeeds = [0, 0, 0, 0, 0];
 	var i = 0;
 	for (i = 0; i < 5; ++i ) {
-		shape_line[i] = Math.floor(Math.random() * (10)) + 1;
+		shape_line[i] = Math.floor(Math.random() * (7)) + 3;
 		radius[i] = Math.floor(Math.random() * (50 - 25 + 1)) + 25;
 		rotspeeds[i] = Math.floor(Math.random() * (4)) + 1;
 		fallspeeds[i] = Math.floor(Math.random() * (4)) + 1;
