@@ -4,7 +4,7 @@ var gamemusic
 
 function musicplay()
 {
-	gamemusic= new sound(maintheme.wav;
+	gamemusic= new sound(maintheme.wav);
 	gamemusic= play();
 	gamemusic.loop=true;
 }
