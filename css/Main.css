@@ -1,4 +1,4 @@
-html{
+body{
 	background-color: #F2F5ED;
 }
 div{
@@ -9,6 +9,23 @@ div{
 	display:inline-block;
 	cursor:pointer;
 }
+
 code {
 	color: #000099;
+}
+
+ul{
+	list-style-type: none;
+}
+
+#nav{
+	position: absolute;
+	width: 100px;
+	top:50px;
+	left: 20px;
+}
+#game{
+	position: absolute;
+	top: 50px;
+	right: 50px;
 }

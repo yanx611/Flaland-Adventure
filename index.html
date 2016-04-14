@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html>
-	<head>
-	<title>Week 9-1</title>
-		<meta charset="utf-8" />
-		<script type="text/javascript" src="./js/jquery-latest.min.js"></script>
-		<script type="text/javascript" src="./js/Game.js"></script>
-		<link rel="stylesheet" type="text/css" href="./css/Main.css">
-	</head>
-	<body onload="onloadHandler()" onkeydown="keyPress(1)" onkeyup="keyPress(0)" onkeypress="keyPress(1)">
-			<canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
-	</body>
+<head>
+  <title>Flatland Adventure</title>
+  <meta charset="utf-8" />
+  <script type="text/javascript" src="./js/jquery-latest.min.js"></script>
+  <script type="text/javascript" src="./js/Game.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" type="text/css" href="./css/Main.css">
+</head>
+
+<body onload="onloadHandler()" onkeydown="keyPress(1)" onkeyup="keyPress(0)" onkeypress="keyPress(1)">
+  <div id="settings">
+    <input type = "button" value = "+">
+    <div id="nav">
+    <ul>
+      <li><a>Settings</a></li>
+      <li><a>Description</a></li>
+    </ul>
+    </div>
+    <div id = "content">
+    <form id="settings">
+    </form>
+    <p id="description">Haha</p>
+    </div>
+  </div>
+  <div id = "game">
+    <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;"></canvas>
+  </div>
+</body>
 </html>
