@@ -1,55 +1,55 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <!--JS-->
-    <script type="text/javascript" src="./js/jquery-latest.min.js"></script>
-    <script type="text/javascript" src="./js/Game.js"></script>
-    <script type="text/javascript" src="./js/ui.js"></script>
-    <!--CSS-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="./css/Main.css">
-    <link rel="icon" href="./css/favicon.ico">
-    <title>Flatland Adventure</title>
+    <head>
+        <meta charset="utf-8">
+        <!--JS-->
+        <script type="text/javascript" src="./js/jquery-latest.min.js"></script>
+        <script type="text/javascript" src="./js/Game.js"></script>
+        <script type="text/javascript" src="./js/ui.js"></script>
+        <!--CSS-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="./css/Main.css">
+        <link rel="icon" href="./css/favicon.ico">
+        <link href='https://fonts.googleapis.com/css?family=Lato:300,800' rel='stylesheet' type='text/css'>
+        <title>Flatland Adventure</title>
+    </head>
 
-  </head>
-
-  <body onload="onloadHandler()" onkeydown="keyPress(1)" onkeyup="keyPress(0)" onkeypress="keyPress(1)">
-    <div class="fluid-container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10">
-          <h1 class="text-left">Flatland Adventure</h1>
-        </div>
-      </div><!--row-->
-      <br>
-      <div class="row">
-        <div class="col-md-offset-1 col-md-2">
-          <div class="row">
-            <div class="col-md-4"><input class = "btn btn-lg" type = "button" value = "+"></div>
-            <div class="col-md-offset-2 col-md-4"><p class="text-center" id="level">Level <br>1</p></div>
-          </div>
-          <ul class="nav">
-            <li><a id = "about">About</a></li>
-            <li><a id = "setting">Settings</a></li>
-            <li><a href = "https://github.com/yanx611/Flatland-Adventure" target = "_blank">Contact</a></li>
-          </ul>
-          <p class="nav subnav" id="instruction">Instructions to how to play</p>
-          <form class="nav subnav" id="setchange">
-            <label>Name</label>
-            <input id="name" type = "text" value = "The destined line"></input>
-            <label>Theme</label><br>
-            <input type = "radio" name = "theme1" value = "" checked>Theme 1</input>
-            <input type = "radio" name = "theme2" value = "">Theme 2</input>
-            <input type = "radio" name = "theme3" value = "">Theme 3</input>
+    <body onload="onloadHandler()" onkeydown="keyPress(1)" onkeyup="keyPress(0)" onkeypress="keyPress(1)">
+        <div class="fluid-container">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <h1 class="text-left">Flatland Adventure</h1>
+                </div>
+            </div><!--row-->
             <br>
-            <label>Music</lable><br>
-            <input type = "checkbox" name = "music" value="music">Background Music</input>
-          </form>
-          </div>
-        <div class="col-md-offset-1 col-md-8">
-          <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;"></canvas>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-2">
+                    <div class="row">
+                        <div class="col-md-4"><input class = "btn btn-lg" type = "button" value = "+"></div>
+                        <div class="col-md-offset-2 col-md-4"><p class="text-center" id="level">Level <br>1</p></div>
+                    </div>
+                    <ul class="nav">
+                        <li><a id = "about">About</a></li>
+                        <li><a id = "setting">Settings</a></li>
+                        <li><a href = "https://github.com/yanx611/Flatland-Adventure" target = "_blank">Contact</a></li>
+                    </ul>
+                    <p class="nav subnav" id="instruction">You are a single line and lost in the Flatland Kingdom. The only way to escape is to choose shape to beat. Keep beating the falling shapes by attacking them in perticularly using mouse, you will be a stronger shape and get the chance to come back to your own world.</p>
+                    <form class="nav subnav" id="setchange" >
+                        <label>Name</label>
+                        <input id="name" type = "text" placeholder = "The destined line"></input>
+                        <label>Theme</label><br>
+                        <input type = "radio" name = "theme" value = "theme1" checked>Theme 1</input>
+                        <input type = "radio" name = "theme" value = "theme2">Theme 2</input>
+                        <input type = "radio" name = "theme" value = "theme3">Theme 3</input>
+                        <br>
+                        <label>Music</lable><br>
+                            <input type = "checkbox" name = "music" value="music">Background Music</input>
+                    </form>
+                </div>
+                <div class="col-md-offset-1 col-md-8">
+                <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;"></canvas>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
   </body>
 </html>
