@@ -1,31 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Flatland Adventure</title>
-  <meta charset="utf-8" />
-  <script type="text/javascript" src="./js/jquery-latest.min.js"></script>
-  <script type="text/javascript" src="./js/Game.js"></script>
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" type="text/css" href="./css/Main.css">
-</head>
+  <head>
+    <meta charset="utf-8">
+    <!--JS-->
+    <script type="text/javascript" src="./js/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="./js/Game.js"></script>
+    <script type="text/javascript" src="./js/ui.js"></script>
+    <!--CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./css/Main.css">
+    <link rel="icon" href="./css/favicon.ico">
+    <title>Flatland Adventure</title>
 
-<body onload="onloadHandler()" onkeydown="keyPress(1)" onkeyup="keyPress(0)" onkeypress="keyPress(1)">
-  <div id="settings">
-    <input type = "button" value = "+">
-    <div id="nav">
-    <ul>
-      <li><a>Settings</a></li>
-      <li><a>Description</a></li>
-    </ul>
+  </head>
+
+  <body onload="onloadHandler()" onkeydown="keyPress(1)" onkeyup="keyPress(0)" onkeypress="keyPress(1)">
+    <div class="fluid-container">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+          <h1 class="text-left">Flatland Adventure</h1>
+        </div>
+      </div><!--row-->
+      <br>
+      <div class="row">
+        <div class="col-md-offset-1 col-md-2">
+          <div class="row">
+            <div class="col-md-4"><input class = "btn btn-lg" type = "button" value = "+"></div>
+            <div class="col-md-offset-2 col-md-4"><p class="text-center" id="level">Level <br>1</p></div>
+          </div>
+          <ul class="nav">
+            <li><a id = "about">About</a></li>
+            <li><a id = "setting">Settings</a></li>
+            <li><a href = "https://github.com/yanx611/Flatland-Adventure" target = "_blank">Contact</a></li>
+          </ul>
+          <p class="nav subnav" id="instruction">Instructions to how to play</p>
+          <form class="nav subnav" id="setchange">
+            <label>Name</label>
+            <input id="name" type = "text" value = "The destined line"></input>
+            <label>Theme</label><br>
+            <input type = "radio" name = "theme1" value = "" checked>Theme 1</input>
+            <input type = "radio" name = "theme2" value = "">Theme 2</input>
+            <input type = "radio" name = "theme3" value = "">Theme 3</input>
+            <br>
+            <label>Music</lable><br>
+            <input type = "checkbox" name = "music" value="music">Background Music</input>
+          </form>
+          </div>
+        <div class="col-md-offset-1 col-md-8">
+          <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;"></canvas>
+        </div>
+      </div>
     </div>
-    <div id = "content">
-    <form id="settings">
-    </form>
-    <p id="description">Haha</p>
-    </div>
-  </div>
-  <div id = "game">
-    <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;"></canvas>
-  </div>
-</body>
+  </body>
 </html>

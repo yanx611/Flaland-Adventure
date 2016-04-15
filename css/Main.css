@@ -1,31 +1,29 @@
 body{
 	background-color: #F2F5ED;
 }
-div{
-	border-radius:5px;
-	margin:3px;
-	padding:5px;
-	font-weight:bold;
-	display:inline-block;
-	cursor:pointer;
-}
 
 code {
 	color: #000099;
 }
 
-ul{
-	list-style-type: none;
+div{
+	margin-bottom: 10px;
+}
+.btn{
+	border-radius: 0px;
 }
 
-#nav{
-	position: absolute;
-	width: 100px;
-	top:50px;
-	left: 20px;
+ul{
+	padding-bottom: 50px;
 }
-#game{
-	position: absolute;
-	top: 50px;
-	right: 50px;
+label{
+	margin-top: 10px;
 }
+
+#name{
+	border-radius: 10px;
+	background-color:#F2F5ED;
+	border: solid 1px #AAA;
+	text-align: center;
+}
+
