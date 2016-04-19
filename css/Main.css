@@ -1,6 +1,10 @@
 body{
 	background-color: #F2F5ED;
 	font-family: 'Lato', sans-serif;
+ 	overflow: -moz-scrollbars-vertical;
+ 	overflow-x: hidden;
+ 	overflow-y: scroll;
+
 }
 h1 {
 	font-family: 'Lato', sans-serif;
