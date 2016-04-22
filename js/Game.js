@@ -273,6 +273,7 @@ function redrawAll()
 		if(collisionArray.length!=0)
 			collisionHandler(collisionArray);
 	}
+
 }
 function addToRedraw(Shape)
 {
@@ -291,11 +292,16 @@ function keyPress(KeyState)
 		moveState= -1*KeyState;
 	if(e.keyCode==68||e.keyCode==100)
 		moveState=1*KeyState;
+	if(e.keyCode==27&&KeyState)
+		pause(!paused);
+		
+		
 }
 
 function keyPress1(KeyState)
 {
 	var e=e||event;
+	console.log(e.keyCode);
 	switch(e.keyCode)
 	{
 		case 37: //left
@@ -320,6 +326,7 @@ function keyPress1(KeyState)
 			mainCharacter.updateMoveVal(1,KeyState);
 			break;
 		}
+		break;
 		case 38: //up
 		case 40: //down 
 		default:
@@ -362,6 +369,7 @@ function onloadHandler(){
 	new fallingShape(6, 25, 320, 25, 4, 4, "#84002E");
 	new fallingShape(12, 25, 400, 75, 5, 5, "#4AC0F2");
 */
+	pause(false);
 	newShape();
 	var intervalID= setInterval(redrawAll, 10);
 }
@@ -402,9 +410,9 @@ function angleBetweenPoints(p1,q1,p2,q2)
 function newShape()
 {
 		var shape_line = Math.floor(Math.random() * (maxSides-minSides)) + minSides;
-		var radius = Math.floor(Math.random() * (maxRadius - minRadius)) + minRadius;
-		var rotspeeds = Math.floor(Math.random() * (maxRot-minRot)) + minRot;
-		var fallspeeds = Math.floor(Math.random() * (maxSpeed-minSpeed)) + minSpeed;
+		var radius = Math.random() * (maxRadius - minRadius) + minRadius;
+		var rotspeeds = Math.random() * (maxRot-minRot) + minRot;
+		var fallspeeds = Math.random()*(maxSpeed-minSpeed) + minSpeed;
 		var xstartPos = Math.floor(Math.random() * (maxX-minX))+minX;
 		var color= colors[Math.floor(Math.random()*(colorMax-colorMin))+colorMin];
 		new fallingShape(shape_line, radius, xstartPos, 0, rotspeeds, fallspeeds, color);
@@ -416,4 +424,10 @@ function setTheme(theme)
 	colorVal= (colorVal>5)? 5:colorVal;
 	colorVal= (colorVal<0)? 0:colorVal;
 	colors=colorSet[colorVal];
+}
+
+function pause(pauseVal)
+{
+	paused=pauseVal;
+	console.log(paused);
 }
