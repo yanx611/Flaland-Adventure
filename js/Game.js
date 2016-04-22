@@ -17,6 +17,8 @@ var minSpeed=1;
 var maxRot=3.5;
 var minRot=-3.5;
 
+var angleTolerance=45;
+
 var maxX;
 var minX=maxRadius;
 var ctx;
@@ -26,7 +28,13 @@ var paused=false;
 					//character, background, color 1,   color 2,   color 3,   color 4,   color 5
 var defaultColor	=["#000000", "#FFFFFF", "#FFC200", "#FF5B00", "#B80028", "#84002E", "#4AC0F2"];
 var colorPreset1	=["#FFFFFF", "#000000", "#FF0099", "#F3F315", "#83f52C", "#FF6600", "#6E0DD0"];
-var colors=colorPreset1;
+var colorPreset2	=["#FFFFFF", "#000000", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"];
+var colorPreset3	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000", "#000000"];
+var colorPreset4	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000", "#000000"];
+var colorPreset5	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000", "#000000"];
+
+var colorSet[defaultColor, colorPreset1,colorPreset2,colorPreset3,colorPreset4,colorPreset5];
+var colors=colorPreset2;
 var colorMax=6;
 var colorMin=2;
 
@@ -216,7 +224,7 @@ class fallingShape
 	remove(colCount,angle)
 	{
 		allShapes.splice(allShapes.indexOf(this),1);
-		if(colCount!=0||angle>135||angle<45)
+		if(colCount!=0||angle>90+angleTolerance||angle<90-angleTolerance)
 			console.log("Bad. Angle: "+angle);
 		else
 			console.log("Good. Angle: "+angle);
@@ -341,9 +349,9 @@ function onloadHandler(){
 		rotspeeds[i] = Math.floor(Math.random() * (4)) + 1;
 		fallspeeds[i] = Math.floor(Math.random() * (4)) + 1;
 	}
-
+/*
 	new fallingShape(shape_line[0], radius[0], 60 , 0, rotspeeds[0], fallspeeds[0], "#FFC200");
-/*	new fallingShape(shape_line[1], radius[1], 180, 0, rotspeeds[1], fallspeeds[1], "#FF5B00");
+	new fallingShape(shape_line[1], radius[1], 180, 0, rotspeeds[1], fallspeeds[1], "#FF5B00");
 	new fallingShape(shape_line[2], radius[2], 300, 0, rotspeeds[2], fallspeeds[2], "#B80028");
 	new fallingShape(shape_line[3], radius[3], 420, 0, rotspeeds[3], fallspeeds[3], "#84002E");
 	new fallingShape(shape_line[4], radius[4], 540, 0, rotspeeds[4], fallspeeds[4], "#4AC0F2");
@@ -354,7 +362,7 @@ function onloadHandler(){
 	new fallingShape(6, 25, 320, 25, 4, 4, "#84002E");
 	new fallingShape(12, 25, 400, 75, 5, 5, "#4AC0F2");
 */
-	
+	newShape();
 	var intervalID= setInterval(redrawAll, 10);
 }
 
@@ -402,3 +410,10 @@ function newShape()
 		new fallingShape(shape_line, radius, xstartPos, 0, rotspeeds, fallspeeds, color);
 }
 
+function setTheme(theme)
+{
+	var colorVal=theme;
+	colorVal= (colorVal>5)? 5:colorVal;
+	colorVal= (colorVal<0)? 0:colorVal;
+	colors=colorSet[colorVal];
+}
