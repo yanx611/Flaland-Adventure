@@ -33,7 +33,7 @@ var colorPreset3	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#0000
 var colorPreset4	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000", "#000000"];
 var colorPreset5	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000", "#000000"];
 
-var colorSet[defaultColor, colorPreset1,colorPreset2,colorPreset3,colorPreset4,colorPreset5];
+var colorSet=[defaultColor, colorPreset1,colorPreset2,colorPreset3,colorPreset4,colorPreset5];
 var colors=colorPreset2;
 var colorMax=6;
 var colorMin=2;
