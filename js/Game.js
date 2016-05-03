@@ -468,8 +468,11 @@ function pause(pauseVal)
 
 function badShapeRemoval(rad,sides)
 {
-	health-=(12-sides)*rad*0.025;
-	var temp=document.getElementById("health").style.width ='"'+health+'%"';
+	// 12 sides - 12 sides might be zero, no way to reduce health in level 1?
+	health-=(13-sides)*rad*0.025;
+	// $("#health").width(health)
+	$("#health").css("width",String(health)+'%');
+	$("#healthval").text(Math.floor(health));
 }
 function goodShapeRemoval(rad,sides)
 {
