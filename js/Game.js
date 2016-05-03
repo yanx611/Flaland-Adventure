@@ -474,7 +474,7 @@ function badShapeRemoval(rad,sides)
 function goodShapeRemoval(rad,sides)
 {
 	score+=level*12+(12-sides)*10+(maxRadius-rad)*5;
-	var score=document.getElementById("score").innerHTML="Score<br>"+score;
+	document.getElementById("score").innerHTML="Score<br>"+String(Math.floor(score));
 	if(score>=level*250)
 		levelUp();
 }
