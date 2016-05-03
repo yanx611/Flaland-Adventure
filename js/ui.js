@@ -10,6 +10,7 @@ function displayContent(selector){
 		$(".subnav").hide();
 		v.removeClass("fa-play");
 		v.addClass("fa-pause");
+		$(selector).attr("onclick",pause(false));
 	} else {
 		if (selector =="#about"){
 			$(".subnav").hide();

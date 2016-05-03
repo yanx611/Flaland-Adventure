@@ -9,7 +9,9 @@ body{
 h1 {
 	font-family: 'Lato', sans-serif;
 	font-weight: 800;
-
+	padding-bottom: 0px;
+	padding-top: 10px;
+	margin: 0px;
 }
 
 code {
