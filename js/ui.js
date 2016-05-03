@@ -1,13 +1,16 @@
 function displayContent(selector){
-	v = $(selector).val();
-	if(v =="+"){
+	v = $(selector).children();
+	if(v.hasClass("fa-pause")){
+		v.removeClass("fa-pause");
+		v.addClass("fa-play");
 		$(".nav").show();
 		$(".subnav").hide();
-		$(":button").val("-");
-	} else if (v =="-"){
+	} else if(v.hasClass("fa-play")){
 		$(".nav").hide();
-		$(":button").val("+");
-	} else{
+		$(".subnav").hide();
+		v.removeClass("fa-play");
+		v.addClass("fa-pause");
+	} else {
 		if (selector =="#about"){
 			$(".subnav").hide();
 			$("#instruction").show();
@@ -16,14 +19,13 @@ function displayContent(selector){
 			$("#setchange").show();
 		}
 	}
-
 }
 
 
 $(document).ready(function(){
     $(".nav").hide();
-    $(":button").click(function(){
-    	displayContent(":button");
+    $("#button").click(function(){
+    	displayContent("#button");
     });
     $("#about").click(function(){
     	displayContent("#about");
