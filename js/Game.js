@@ -1,28 +1,35 @@
 var allShapes=[];
 
+var level;
+var score;
 var mainCharacter;
+var timeSinceLastShape;
+var health;
+var moveState;
+var rotState;
+var maxShapes;
+var maxRadius;
+var minRadius;
 
-var moveState=0;
-var rotState=0;
+var maxSides;
+var minSides;
 
-var maxRadius=50;
-var minRadius=25;
+var startSpeed;
 
-var maxSides=10;
-var minSides=3;
+var maxRot;
+var minRot;
 
-var maxSpeed=3.5;
-var minSpeed=1;
-
-var maxRot=3.5;
-var minRot=-3.5;
-
-var angleTolerance=45;
+var angleTolerance;
 
 var maxX;
 var minX=maxRadius;
 var ctx;
 var c;
+
+var maxSidesA=[12,12,12,11,10,9,7,6,5,4,3,2];
+var minSidesA=[12,11,9,8,7,6,5,4,3,2,2,2];
+var shapesOnScreen=[6,6,6,5,5,5,4,4,4,3,2,2]
+
 
 var paused=false;
 					//character, background, color 1,   color 2,   color 3,   color 4,   color 5
@@ -206,12 +213,12 @@ class fallingShape
 		return vertex;
 	}
 
-	constructor(sides, radius, startX, startY, rotSpeed, fallSpeed, color)
+	constructor(sides, radius, startX, rotSpeed, fallSpeed, color)
 	{
 		this.sides=sides;
 		this.radius=radius;
 		this.Xpos=startX;
-		this.Ypos=startY;
+		this.Ypos=-radius;
 		this.rotSpeed=rotSpeed;
 		this.rotation=0;
 		this.X=0;
@@ -225,16 +232,15 @@ class fallingShape
 	{
 		allShapes.splice(allShapes.indexOf(this),1);
 		if(colCount!=0||angle>90+angleTolerance||angle<90-angleTolerance)
-			console.log("Bad. Angle: "+angle);
+			badShapeRemoval(this.radius,this.sides);
 		else
-			console.log("Good. Angle: "+angle);
-		newShape();
+			goodShapeRemoval(this.radius,this.sides);
 	}
 }
 
 function redrawAll()
 {
-	if(!paused)
+	if(!paused&&(health>0))
 	{
 		ctx.clearRect(0, 0, c.width, c.height);
 		ctx.fillStyle=colors[1];
@@ -272,6 +278,14 @@ function redrawAll()
 		}
 		if(collisionArray.length!=0)
 			collisionHandler(collisionArray);
+		
+		if(((allShapes.length-1)<maxShapes)&&(timeSinceLastShape>=800))
+		{
+			newShape();
+			timeSinceLastShape=0;
+		}
+		else
+			timeSinceLastShape+=10;
 	}
 
 }
@@ -340,39 +354,46 @@ function gameStart()
 {}
 
 function onloadHandler(){
+	level=0;
+	score=0;
+	timeSinceLastShape=0;
+	health=100;
+	moveState=0;
+	rotState=0;
+	maxRadius=50;
+	minRadius=25;
+	maxRot=3.5;
+	minRot=-3.5;
+	angleTolerance=45;
+
+	minX=maxRadius;
+	
+	
 	c=document.getElementById("myCanvas");
 	ctx=c.getContext("2d");
 	maxX=c.width-maxRadius;
 	mainCharacter= new mainChar();
-	//by create random number
-	var shape_line = [0,0,0,0,0];
-	var radius = [0,0,0,0,0];
-	var rotspeeds = [0, 0, 0, 0, 0];
-	var fallspeeds = [0, 0, 0, 0, 0];
-	var i = 0;
-	for (i = 0; i < 5; ++i ) {
-		shape_line[i] = Math.floor(Math.random() * (7)) + 3;
-		radius[i] = Math.floor(Math.random() * (50 - 25 + 1)) + 25;
-		rotspeeds[i] = Math.floor(Math.random() * (4)) + 1;
-		fallspeeds[i] = Math.floor(Math.random() * (4)) + 1;
-	}
-/*
-	new fallingShape(shape_line[0], radius[0], 60 , 0, rotspeeds[0], fallspeeds[0], "#FFC200");
-	new fallingShape(shape_line[1], radius[1], 180, 0, rotspeeds[1], fallspeeds[1], "#FF5B00");
-	new fallingShape(shape_line[2], radius[2], 300, 0, rotspeeds[2], fallspeeds[2], "#B80028");
-	new fallingShape(shape_line[3], radius[3], 420, 0, rotspeeds[3], fallspeeds[3], "#84002E");
-	new fallingShape(shape_line[4], radius[4], 540, 0, rotspeeds[4], fallspeeds[4], "#4AC0F2");
-/*
-	new fallingShape(5, 50, 60, 30, 1, 1, "#FFC200");
-	new fallingShape(4, 25, 200, 75, 2, 2, "#FF5B00");
-	new fallingShape(3, 25, 260, 25, 3, 3, "#B80028");
-	new fallingShape(6, 25, 320, 25, 4, 4, "#84002E");
-	new fallingShape(12, 25, 400, 75, 5, 5, "#4AC0F2");
-*/
+	
+	levelUp();
 	pause(false);
 	newShape();
 	var intervalID= setInterval(redrawAll, 10);
 }
+
+function levelUp()
+{
+	level++;
+	if(level<=12)
+	{
+		maxSides=maxSidesA[level-1];
+		minSides=minSidesA[level-1];
+		maxShapes=shapesOnScreen[level-1];
+	}
+
+	startSpeed = 0.2*level+1;
+	var levelDiv=document.getElementById("level").innerHTML="Level<br>"+level;
+}
+
 
 function collisionHandler(collisions)
 {
@@ -394,6 +415,7 @@ function collisionHandler(collisions)
 		}
 		lastColId=collisions[i].id;
 	}
+	console.log(collisions.length);
 }
 
 function angleBetweenPoints(p1,q1,p2,q2)
@@ -412,10 +434,10 @@ function newShape()
 		var shape_line = Math.floor(Math.random() * (maxSides-minSides)) + minSides;
 		var radius = Math.random() * (maxRadius - minRadius) + minRadius;
 		var rotspeeds = Math.random() * (maxRot-minRot) + minRot;
-		var fallspeeds = Math.random()*(maxSpeed-minSpeed) + minSpeed;
+		var fallspeeds = startSpeed;
 		var xstartPos = Math.floor(Math.random() * (maxX-minX))+minX;
 		var color= colors[Math.floor(Math.random()*(colorMax-colorMin))+colorMin];
-		new fallingShape(shape_line, radius, xstartPos, 0, rotspeeds, fallspeeds, color);
+		new fallingShape(shape_line, radius, xstartPos, rotspeeds, fallspeeds, color);
 }
 
 function setTheme(theme)
@@ -431,3 +453,19 @@ function pause(pauseVal)
 	paused=pauseVal;
 	console.log(paused);
 }
+
+
+function badShapeRemoval(rad,sides)
+{
+	health-=(12-sides)*rad*0.025;
+	var temp=document.getElementById("health").style.width ='"'+health+'%"';
+}
+function goodShapeRemoval(rad,sides)
+{
+	score+=level*12+(12-sides)*10+(maxRadius-rad)*5;
+	var score=document.getElementById("score").innerHTML="Score<br>"+score;
+	if(score>=level*250)
+		levelUp();
+}
+
+
