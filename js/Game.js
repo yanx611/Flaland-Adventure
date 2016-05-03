@@ -29,9 +29,9 @@ var paused=false;
 var defaultColor	=["#000000", "#FFFFFF", "#FFC200", "#FF5B00", "#B80028", "#84002E", "#4AC0F2"];
 var colorPreset1	=["#FFFFFF", "#000000", "#FF0099", "#F3F315", "#83f52C", "#FF6600", "#6E0DD0"];
 var colorPreset2	=["#FFFFFF", "#000000", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"];
-var colorPreset3	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000", "#000000"];
-var colorPreset4	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000", "#000000"];
-var colorPreset5	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000", "#000000"];
+var colorPreset3	=["#000000", "#FFFFFF", "#28be9b", "#92dce0", "#609194", "#ef9950", "#d79c8c"];
+var colorPreset4	=["#000000", "#FFFFFF", "#f17d80", "#737495", "#68a8ad", "#c4d4af", "#6c8672"];
+var colorPreset5	=["#000000", "#FFFFFF", "#fe9601", "#cc0063", "#86269b", "#00d2f1", "#00b796"];
 
 var colorSet=[defaultColor, colorPreset1,colorPreset2,colorPreset3,colorPreset4,colorPreset5];
 var colors=colorPreset2;
@@ -61,7 +61,7 @@ function onSegment(p, q, r)
     if (q.x <= Math.max(p.x, r.x) && q.x >= Math.min(p.x, r.x) &&
         q.y <= Math.max(p.y, r.y) && q.y >= Math.min(p.y, r.y))
        return true;
-	   
+
     return false;
 }
 
@@ -120,12 +120,12 @@ class mainChar
 			this.Xpos=c.width+this.length;
 		if(this.Xpos>c.width+this.length)
 			this.Xpos=-this.length;
-		
+
 		var p1=new point(this.Xpos-this.length*Math.cos(this.rot*Math.PI/180),this.Ypos-this.length*Math.sin(this.rot*Math.PI/180));
 		var p2=new point(this.Xpos-(this.length-this.colisionlength)*Math.cos(this.rot*Math.PI/180),this.Ypos-(this.length-this.colisionlength)*Math.sin(this.rot*Math.PI/180));
 		var p3=new point(this.Xpos+(this.length-this.colisionlength)*Math.cos(this.rot*Math.PI/180),this.Ypos+(this.length-this.colisionlength)*Math.sin(this.rot*Math.PI/180));
 		var p4=new point(this.Xpos+this.length*Math.cos(this.rot*Math.PI/180),this.Ypos+this.length*Math.sin(this.rot*Math.PI/180));
-		
+
 		ctx.strokeStyle=colors[0];
 		ctx.beginPath();
 		ctx.moveTo(p1.x,p1.y);
@@ -141,7 +141,7 @@ class mainChar
 	}
 	constructor()
 	{
-		
+
 		this.Xpos=c.width/2;
 		this.Ypos=c.height-100;
 		this.length=50;
@@ -174,12 +174,12 @@ class fallingShape
 	{
 		var angle=360/this.sides;
 		ctx.fillStyle = this.color;
-		var vertex= []; 
+		var vertex= [];
 		for(var i=0; i<this.sides;i++)
 		{
 			vertex[i]=new point(centerX+this.radius*Math.cos((Math.PI/180)*(angle*i+rot)),centerY+this.radius*Math.sin((Math.PI/180)*(angle*i+rot)));
 		}
-		
+
 		ctx.beginPath();
 		ctx.moveTo(vertex[0].x,vertex[0].y);
 		for(var i=1; i< this.sides; i++)
@@ -191,7 +191,7 @@ class fallingShape
 		ctx.fill();
 		return vertex;
 	}
-	
+
 	redraw()
 	{
 		var vertex=this.regularPolygon(this.Xpos,this.Ypos,this.rotation);
@@ -205,7 +205,7 @@ class fallingShape
 		}
 		return vertex;
 	}
-	
+
 	constructor(sides, radius, startX, startY, rotSpeed, fallSpeed, color)
 	{
 		this.sides=sides;
@@ -220,7 +220,7 @@ class fallingShape
 		this.fallSpeed=fallSpeed;
 		addToRedraw(this);
 	}
-	
+
 	remove(colCount,angle)
 	{
 		allShapes.splice(allShapes.indexOf(this),1);
@@ -283,7 +283,7 @@ function addToRedraw(Shape)
 function keyPress(KeyState)
 {
 	var e=e||event;
-	
+
 	if(e.keyCode==37)
 		rotState= -1*KeyState;
 	if(e.keyCode==39)
@@ -294,8 +294,8 @@ function keyPress(KeyState)
 		moveState=1*KeyState;
 	if(e.keyCode==27&&KeyState)
 		pause(!paused);
-		
-		
+
+
 }
 
 function keyPress1(KeyState)
@@ -328,7 +328,7 @@ function keyPress1(KeyState)
 		}
 		break;
 		case 38: //up
-		case 40: //down 
+		case 40: //down
 		default:
 		{
 			break;
