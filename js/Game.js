@@ -46,10 +46,7 @@ var colorMax=6;
 var colorMin=2;
 
 $(document).ready(function() {
-	$("input[name='theme']").on("click", function() {
-		var themenum = parseInt($(this).val());
-		setTheme(themenum);
-	});
+	setThe();
 });
 
 class point
