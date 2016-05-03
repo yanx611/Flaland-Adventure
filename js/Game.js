@@ -41,9 +41,16 @@ var colorPreset4	=["#000000", "#FFFFFF", "#f17d80", "#737495", "#68a8ad", "#c4d4
 var colorPreset5	=["#000000", "#FFFFFF", "#fe9601", "#cc0063", "#86269b", "#00d2f1", "#00b796"];
 
 var colorSet=[defaultColor, colorPreset1,colorPreset2,colorPreset3,colorPreset4,colorPreset5];
-var colors=colorPreset2;
+var colors=defaultColor;
 var colorMax=6;
 var colorMin=2;
+
+$(document).ready(function() {
+	$("input[name='theme']").on("click", function() {
+		var themenum = parseInt($(this).val());
+		setTheme(themenum);
+	});
+});
 
 class point
 {
@@ -278,7 +285,7 @@ function redrawAll()
 		}
 		if(collisionArray.length!=0)
 			collisionHandler(collisionArray);
-		
+
 		if(((allShapes.length-1)<maxShapes)&&(timeSinceLastShape>=800))
 		{
 			newShape();
@@ -367,13 +374,13 @@ function onloadHandler(){
 	angleTolerance=45;
 
 	minX=maxRadius;
-	
-	
+
+
 	c=document.getElementById("myCanvas");
 	ctx=c.getContext("2d");
 	maxX=c.width-maxRadius;
 	mainCharacter= new mainChar();
-	
+
 	levelUp();
 	pause(false);
 	newShape();
@@ -440,6 +447,13 @@ function newShape()
 		new fallingShape(shape_line, radius, xstartPos, rotspeeds, fallspeeds, color);
 }
 
+function setThe() {
+	$("input[name='theme']").on("click", function() {
+		var themenum = parseInt($(this).val());
+		setTheme(themenum);
+	});
+}
+
 function setTheme(theme)
 {
 	var colorVal=theme;
@@ -467,5 +481,3 @@ function goodShapeRemoval(rad,sides)
 	if(score>=level*250)
 		levelUp();
 }
-
-
