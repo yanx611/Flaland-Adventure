@@ -467,12 +467,12 @@ function pause(pauseVal)
 
 
 function badShapeRemoval(rad,sides)
-{
-	// 12 sides - 12 sides might be zero, no way to reduce health in level 1?
+{	// 12 sides - 12 sides might be zero, no way to reduce health in level 1?
 	health-=(13-sides)*rad*0.025;
 	// $("#health").width(health)
 	$("#health").css("width",String(health)+'%');
-	$("#healthval").text(Math.floor(health));
+	if (health >= 0) $("#healthval").text(Math.floor(health));
+	else $("#healthval").text(Math.floor(0));
 }
 function goodShapeRemoval(rad,sides)
 {
