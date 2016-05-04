@@ -546,8 +546,8 @@ function goodShapeRemoval(rad,sides)
 	if(score>=level*2500)
 		levelUp();
 	document.getElementById("score").innerHTML="Score<br>"+score;
-	document.getElementById("progress").style.width=Math.floor(100*(score-(level-1)*2500)/(level*2500))+"%";
-	if (score >= 0) $("#progressval").text(Math.floor(100*(score-(level-1)*2500)/(level*2500)));
+	document.getElementById("progress").style.width=Math.floor(100*(score-(level-1)*2500)/(2500))+"%";
+	if (score >= 0) $("#progressval").text(Math.floor(100*(score-(level-1)*2500)/(2500)));
 	else $("#progressval").text(0);
 	
 }
