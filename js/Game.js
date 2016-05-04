@@ -10,21 +10,19 @@ var rotState;
 var maxShapes;
 var maxRadius;
 var minRadius;
-
 var maxSides;
 var minSides;
-
 var startSpeed;
-
 var maxRot;
 var minRot;
-
 var angleTolerance;
-
 var maxX;
 var minX=maxRadius;
 var ctx;
 var c;
+var gameOverState;
+
+var inverted=true;
 
 var maxSidesA=[12,12,12,11,10,9,7,6,5,4,3,2];
 var minSidesA=[12,11,9,8,7,6,5,4,3,2,2,2];
@@ -34,8 +32,8 @@ var shapesOnScreen=[6,6,6,5,5,5,4,4,4,3,2,2]
 var paused=false;
 					//character, background, color 1,   color 2,   color 3,   color 4,   color 5
 var defaultColor	=["#000000", "#FFFFFF", "#FFC200", "#FF5B00", "#B80028", "#84002E", "#4AC0F2"];
-var colorPreset1	=["#FFFFFF", "#000000", "#FF0099", "#F3F315", "#83f52C", "#FF6600", "#6E0DD0"];
-var colorPreset2	=["#FFFFFF", "#000000", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"];
+var colorPreset1	=["#000000", "#FFFFFF", "#00FF66", "#0C0CEA", "#7C0AD3", "#0099FF", "#91F22F"];
+var colorPreset2	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000", "#000000"];
 var colorPreset3	=["#000000", "#FFFFFF", "#28be9b", "#92dce0", "#609194", "#ef9950", "#d79c8c"];
 var colorPreset4	=["#000000", "#FFFFFF", "#f17d80", "#737495", "#68a8ad", "#c4d4af", "#6c8672"];
 var colorPreset5	=["#000000", "#FFFFFF", "#fe9601", "#cc0063", "#86269b", "#00d2f1", "#00b796"];
@@ -137,7 +135,7 @@ class mainChar
 		var p3=new point(this.Xpos+(this.length-this.colisionlength)*Math.cos(this.rot*Math.PI/180),this.Ypos+(this.length-this.colisionlength)*Math.sin(this.rot*Math.PI/180));
 		var p4=new point(this.Xpos+this.length*Math.cos(this.rot*Math.PI/180),this.Ypos+this.length*Math.sin(this.rot*Math.PI/180));
 
-		ctx.strokeStyle=colors[0];
+		ctx.strokeStyle=(inverted)? colorInverter(colors[0]):colors[0];
 		ctx.beginPath();
 		ctx.moveTo(p1.x,p1.y);
 		ctx.lineTo(p4.x,p4.y);
@@ -184,7 +182,15 @@ class fallingShape
 	regularPolygon(centerX, centerY, rot)
 	{
 		var angle=360/this.sides;
-		ctx.fillStyle = this.color;
+		if(gameOverState)
+		{
+			this.color=colorInverter(this.color);
+			ctx.fillStyle=this.color;
+		}	
+		else
+		{
+			ctx.fillStyle = (inverted)? colorInverter(this.color):this.color;
+		}
 		var vertex= [];
 		for(var i=0; i<this.sides;i++)
 		{
@@ -202,10 +208,33 @@ class fallingShape
 		ctx.fill();
 		return vertex;
 	}
+	
+	line(centerX,centerY,rot)
+	{
+		if(gameOverState)
+		{
+			this.color=colorInverter(this.color);
+			ctx.fillStyle=this.color;
+		}	
+		else
+		{
+			ctx.fillStyle = (inverted)? colorInverter(this.color):this.color;
+		}
+		var p1=new point(centerX+this.radius*Math.cos(rot*Math.PI/180),centerY+this.radius*Math.sin(rot*Math.PI/180));
+		var p2=new point(centerX-this.radius*Math.cos(rot*Math.PI/180),centerY-this.radius*Math.sin(rot*Math.PI/180));
+		ctx.beginPath();
+		ctx.moveTo(p1.x,p1.y);
+		ctx.lineTo(p2.x,p2.y);
+		ctx.stroke();
+		return [p1,p2];
+	}
 
 	redraw()
 	{
-		var vertex=this.regularPolygon(this.Xpos,this.Ypos,this.rotation);
+		if (this.sides>2)
+			var vertex=this.regularPolygon(this.Xpos,this.Ypos,this.rotation);
+		else
+			var vertex=this.line(this.Xpos,this.Ypos,this.rotation);
 		this.rotation=this.rotation+this.rotSpeed;
 		this.Ypos+=this.fallSpeed;
 		if(this.rotation>=360)
@@ -244,10 +273,10 @@ class fallingShape
 
 function redrawAll()
 {
-	if(!paused&&(health>0))
+	if(!paused&&!gameOverState)
 	{
 		ctx.clearRect(0, 0, c.width, c.height);
-		ctx.fillStyle=colors[1];
+		ctx.fillStyle= (inverted)? colorInverter(colors[1]):colors[1];
 		ctx.fillRect(0,0,c.width,c.height);
 		var charLocation;
 		var pushed=false;
@@ -280,9 +309,10 @@ function redrawAll()
 				charLocation=allShapes[0].redraw();
 			}
 		}
+		
 		if(collisionArray.length!=0)
 			collisionHandler(collisionArray);
-
+		
 		if(((allShapes.length-1)<maxShapes)&&(timeSinceLastShape>=800))
 		{
 			newShape();
@@ -291,7 +321,27 @@ function redrawAll()
 		else
 			timeSinceLastShape+=10;
 	}
-
+	else if (gameOverState)
+	{
+		ctx.clearRect(0, 0, c.width, c.height);
+		ctx.fillStyle= (inverted)? colorInverter(colors[1]):colors[1];
+		ctx.fillRect(0,0,c.width,c.height);
+		for(var i=0; i<allShapes.length;i++)
+		{
+			var vertex=allShapes[i].redraw();
+		}
+		ctx.font = "30px Arial";
+		ctx.fillStyle = "red";
+		ctx.textAlign = "center";
+		ctx.strokeText("Game Over",c.width/2,c.height/2);
+		if(((allShapes.length-1)<maxShapes)&&(timeSinceLastShape>=250))
+		{
+			newShape();
+			timeSinceLastShape=0;
+		}
+		else
+			timeSinceLastShape+=10;
+	}
 }
 function addToRedraw(Shape)
 {
@@ -319,7 +369,6 @@ function keyPress(KeyState)
 function keyPress1(KeyState)
 {
 	var e=e||event;
-	console.log(e.keyCode);
 	switch(e.keyCode)
 	{
 		case 37: //left
@@ -355,53 +404,64 @@ function keyPress1(KeyState)
 }
 
 function gameStart()
-{}
-
-function onloadHandler(){
+{
 	level=0;
 	score=0;
 	timeSinceLastShape=0;
 	health=100;
 	moveState=0;
 	rotState=0;
-	maxRadius=50;
+	maxRadius=45;
 	minRadius=25;
-	maxRot=3.5;
-	minRot=-3.5;
+	maxRot=1.25;
+	minRot=-1.25;
 	angleTolerance=45;
-
 	minX=maxRadius;
-
-
-	c=document.getElementById("myCanvas");
-	ctx=c.getContext("2d");
+	document.getElementById("health").style.width =100+'%';
 	maxX=c.width-maxRadius;
+	allShapes=[]
 	mainCharacter= new mainChar();
-
 	levelUp();
 	pause(false);
 	newShape();
 	var intervalID= setInterval(redrawAll, 10);
 }
 
-function levelUp()
-{
-	level++;
-	if(level<=12)
-	{
-		maxSides=maxSidesA[level-1];
-		minSides=minSidesA[level-1];
-		maxShapes=shapesOnScreen[level-1];
-	}
-
-	startSpeed = 0.2*level+1;
-	var levelDiv=document.getElementById("level").innerHTML="Level<br>"+level;
+function onloadHandler(){
+	c=document.getElementById("myCanvas");
+	ctx=c.getContext("2d");
+	gameStart();
+	
 }
 
+function levelUp()
+{
+	if(level!=-1)
+	{	
+		level++;
+		if(level<=12)
+		{
+			maxSides=maxSidesA[level-1];
+			minSides=minSidesA[level-1];
+			maxShapes=shapesOnScreen[level-1];
+		}
+
+		startSpeed = 0.1*level+1;
+		document.getElementById("level").innerHTML="Level<br>"+level;
+		
+	}
+	else
+	{
+		maxSides=12;
+		minSides=2;
+		maxShapes=7;
+		startSpeed=4;
+	}
+}
 
 function collisionHandler(collisions)
 {
-	var lastColId=1;
+	var lastColId=collisions[0].id;
 	var colCount=0;
 	for(var i=0; i<collisions.length;i++)
 	{
@@ -412,14 +472,18 @@ function collisionHandler(collisions)
 		else
 		{
 			if(i-1>=0)
+			{
 				allShapes[lastColId].remove(colCount,collisions[i-1].angle);
+			}
 			else
+			{
 				allShapes[lastColId].remove(colCount,collisions[0].angle);
+
+			}
 			colCount=0;
 		}
 		lastColId=collisions[i].id;
 	}
-	console.log(collisions.length);
 }
 
 function angleBetweenPoints(p1,q1,p2,q2)
@@ -429,7 +493,6 @@ function angleBetweenPoints(p1,q1,p2,q2)
 	var v1M=Math.sqrt(Math.pow(V1.x,2)+Math.pow(V1.y,2))
 	var v2M=Math.sqrt(Math.pow(V2.x,2)+Math.pow(V2.y,2))
 	var angle=(Math.acos((V1.x*V2.x+V1.y*V2.y)/(v1M*v2M))*180/Math.PI);
-	//console.log(angle);
 	return angle;
 }
 
@@ -462,22 +525,50 @@ function setTheme(theme)
 function pause(pauseVal)
 {
 	paused=pauseVal;
-	console.log(paused);
 }
 
 
 function badShapeRemoval(rad,sides)
-{	// 12 sides - 12 sides might be zero, no way to reduce health in level 1?
-	health-=(13-sides)*rad*0.025;
-	// $("#health").width(health)
-	$("#health").css("width",String(health)+'%');
+{
+	health=Math.floor(health-(13-sides)*rad*0.025);
+	health=(health<0)? 0:health;
+	document.getElementById("health").style.width =health+'%';
+	(health<=0)? gameOver():0;
 	if (health >= 0) $("#healthval").text(Math.floor(health));
 	else $("#healthval").text(Math.floor(0));
 }
 function goodShapeRemoval(rad,sides)
 {
-	score+=level*12+(12-sides)*10+(maxRadius-rad)*5;
-	document.getElementById("score").innerHTML="Score<br>"+String(Math.floor(score));
-	if(score>=level*250)
+	score+=Math.floor(level*12+(12-sides)*10+(maxRadius-rad)*5);
+	document.getElementById("score").innerHTML="Score<br>"+score;
+	if(score>=level*2500)
 		levelUp();
+}
+
+
+function gameOver()
+{
+	if(!gameOverState)
+	{
+		gameOverState=true;
+		allShapes=[];
+		level=-1;
+		levelUp();
+		console.log("GameOver")
+	}
+}
+
+function colorInverter(color)
+{
+	var returnVal=((255-parseInt(color.substr(1,2),16))<<16)+((255-parseInt(color.substr(3,2),16))<<8)+(255-parseInt(color.substr(5,2),16));	
+	returnVal=returnVal.toString(16)
+	while(returnVal.length<6)
+		returnVal="0"+returnVal;
+		
+	return "#"+returnVal;
+}
+
+function invertColors(invert)
+{
+	inverted=invert;
 }
