@@ -39,3 +39,7 @@ label{
 	border: solid 1px #AAA;
 	text-align: center;
 }
+
+canvas{
+	border-radius: 10px;
+}
