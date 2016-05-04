@@ -22,7 +22,7 @@ var ctx;
 var c;
 var gameOverState;
 
-var inverted=true;
+var inverted=false;
 
 var maxSidesA=[12,12,12,11,10,9,7,6,5,4,3,2];
 var minSidesA=[12,11,9,8,7,6,5,4,3,2,2,2];
@@ -31,12 +31,12 @@ var shapesOnScreen=[6,6,6,5,5,5,4,4,4,3,2,2]
 
 var paused=false;
 					//character, background, color 1,   color 2,   color 3,   color 4,   color 5
-var defaultColor	=["#000000", "#FFFFFF", "#FFC200", "#FF5B00", "#B80028", "#84002E", "#4AC0F2"];
-var colorPreset1	=["#000000", "#FFFFFF", "#00FF66", "#0C0CEA", "#7C0AD3", "#0099FF", "#91F22F"];
-var colorPreset2	=["#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000", "#000000"];
-var colorPreset3	=["#000000", "#FFFFFF", "#28be9b", "#92dce0", "#609194", "#ef9950", "#d79c8c"];
-var colorPreset4	=["#000000", "#FFFFFF", "#f17d80", "#737495", "#68a8ad", "#c4d4af", "#6c8672"];
-var colorPreset5	=["#000000", "#FFFFFF", "#fe9601", "#cc0063", "#86269b", "#00d2f1", "#00b796"];
+var defaultColor	=["#000000", "#F2F5E9", "#FFC200", "#FF5B00", "#B80028", "#84002E", "#4AC0F2"];
+var colorPreset1	=["#000000", "#F2F5E9", "#00FF66", "#0C0CEA", "#7C0AD3", "#0099FF", "#91F22F"];
+var colorPreset2	=["#000000", "#F2F5E9", "#000000", "#000000", "#000000", "#000000", "#000000"];
+var colorPreset3	=["#000000", "#F2F5E9", "#28be9b", "#92dce0", "#609194", "#ef9950", "#d79c8c"];
+var colorPreset4	=["#000000", "#F2F5E9", "#f17d80", "#737495", "#68a8ad", "#c4d4af", "#6c8672"];
+var colorPreset5	=["#000000", "#F2F5E9", "#fe9601", "#cc0063", "#86269b", "#00d2f1", "#00b796"];
 
 var colorSet=[defaultColor, colorPreset1,colorPreset2,colorPreset3,colorPreset4,colorPreset5];
 var colors=defaultColor;
@@ -45,6 +45,7 @@ var colorMin=2;
 
 $(document).ready(function() {
 	setThe();
+	checkinvert();
 });
 
 class point
@@ -186,7 +187,7 @@ class fallingShape
 		{
 			this.color=colorInverter(this.color);
 			ctx.fillStyle=this.color;
-		}	
+		}
 		else
 		{
 			ctx.fillStyle = (inverted)? colorInverter(this.color):this.color;
@@ -208,14 +209,14 @@ class fallingShape
 		ctx.fill();
 		return vertex;
 	}
-	
+
 	line(centerX,centerY,rot)
 	{
 		if(gameOverState)
 		{
 			this.color=colorInverter(this.color);
 			ctx.fillStyle=this.color;
-		}	
+		}
 		else
 		{
 			ctx.fillStyle = (inverted)? colorInverter(this.color):this.color;
@@ -309,10 +310,10 @@ function redrawAll()
 				charLocation=allShapes[0].redraw();
 			}
 		}
-		
+
 		if(collisionArray.length!=0)
 			collisionHandler(collisionArray);
-		
+
 		if(((allShapes.length-1)<maxShapes)&&(timeSinceLastShape>=800))
 		{
 			newShape();
@@ -431,13 +432,13 @@ function onloadHandler(){
 	c=document.getElementById("myCanvas");
 	ctx=c.getContext("2d");
 	gameStart();
-	
+
 }
 
 function levelUp()
 {
 	if(level!=-1)
-	{	
+	{
 		level++;
 		if(level<=12)
 		{
@@ -448,7 +449,7 @@ function levelUp()
 
 		startSpeed = 0.1*level+1;
 		document.getElementById("level").innerHTML="Level<br>"+level;
-		
+
 	}
 	else
 	{
@@ -560,15 +561,22 @@ function gameOver()
 
 function colorInverter(color)
 {
-	var returnVal=((255-parseInt(color.substr(1,2),16))<<16)+((255-parseInt(color.substr(3,2),16))<<8)+(255-parseInt(color.substr(5,2),16));	
+	var returnVal=((255-parseInt(color.substr(1,2),16))<<16)+((255-parseInt(color.substr(3,2),16))<<8)+(255-parseInt(color.substr(5,2),16));
 	returnVal=returnVal.toString(16)
 	while(returnVal.length<6)
 		returnVal="0"+returnVal;
-		
+
 	return "#"+returnVal;
 }
 
 function invertColors(invert)
 {
 	inverted=invert;
+}
+
+function checkinvert() {
+	$("input[name='invt']").on("click", function() {
+		if($("#inv").is(':checked')) invertColors(true);
+		else invertColors(false);
+	});
 }
