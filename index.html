@@ -30,9 +30,17 @@
             <div class="row">
                 <div class="col-md-offset-1 col-md-3">
                     <div class="row">
-                        <div class="col-md-4 text-center"><span id="button" class ="btn btn-lg" onClick = "pause(true)"><span class="fa fa-pause" aria-hidden="true"></span></span></div>
-                        <div class="col-md-offset-1 col-md-3"><p class="text-center" id="level">Level <br>1</p></div>
-                        <div class="col-md-col-3"><p class="text-center" id = "score">Score<br>0</p></div>
+                        <div class="col-md-5 text-center"><span id="button" class ="btn btn-lg" onClick = "pause(true)"><span class="fa fa-pause fa-5x" aria-hidden="true"></span></span></div>
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-offset-1 col-md-3"><p class="text-center" id="level">Level <br>1</p></div>
+                                <div class="col-md-col-3"><p class="text-center" id = "score">Score<br>0</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="progress-bar" role="progressbar" id = "progress" style="width: 100%;"><span id="progressval">100</span>%
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <ul class="nav">
                         <li><a id = "about">About</a></li>
@@ -62,7 +70,7 @@
                     <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;"></canvas>
                     <!--HP bar-->
                     <div class="progress" style = "width: 600px;">
-                      <div class="progress-bar progress-bar-danger" role="progressbar" id = "health" style="width: 100%;"><span id="healthval">100</span>%
+                      <div class="progress-bar progress-bar-danger" role="progressbar" id = "health" style="width: 100%;">Line: <span id="healthval">100</span>%
                       </div>
                     </div>
                 </div>
