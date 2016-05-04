@@ -49,21 +49,29 @@
                     </ul>
                     <p class="nav subnav" id="instruction">Welcome to Flatland Adventure! You are a destined line trapped in the game world and you only know that your fate is being the king of the place. The only way to stand on the top of the country is accepting the challenge of beating shapes and leveling up. You can control the position and angle using keyboards. Try your best to hit the falling shapes as perpendicularly as you can. Our system will tell whether it is a good or bad hit. You will gain points if you achieve a good hit, vice versa. The difficulty of the game is increasing every level, try your best to unlock every level and pass the game. You are the only one who can become the King of the Flatland Kingdom! You are the chosen one!</p>
                     <form class="nav subnav" id="setchange" >
-                        <label>Name</label>
+                        <label>Name: </label>
                         <input id="name" type = "text" placeholder = "The destined line"></input> <br>
                         <label>Theme</label> &nbsp;
                         <input type = "checkbox" id = "inv" name = "invt">Invert</input><br>
-                        <input type = "radio" name = "theme" value = "0" checked>Default</input> <br>
-                        <input type = "radio" name = "theme" value = "1">Reverse</input> <br>
-                        <input type = "radio" name = "theme" value = "2">BNW</input> <br>
-                        <input type = "radio" name = "theme" value = "3">Fresh</input> <br>
-                        <input type = "radio" name = "theme" value = "4">Dim</input> <br>
-                        <input type = "radio" name = "theme" value = "5">Harsh</input><br>
-                        <label>Music</lable><br>
-                           <input type = "radio" name = "musictheme" value="music1" checked>Theme 1</input><br>
+                        <div class="row"><div class="col-md-4">
+                            <input type = "radio" name = "theme" value = "0" checked>Default</input> <br>
+                            <input type = "radio" name = "theme" value = "1">Reverse</input> <br>
+                            <input type = "radio" name = "theme" value = "2">BNW</input> <br>
+                        </div>
+                        <div class="col-md-4">
+                            <input type = "radio" name = "theme" value = "3">Fresh</input> <br>
+                            <input type = "radio" name = "theme" value = "4">Dim</input> <br>
+                            <input type = "radio" name = "theme" value = "5">Harsh</input><br>
+                        </div></div>
+                         <div class="row">
+                            <div class="col-md-4">
+                            <label>Music</lable><br>
+                            <input type = "radio" name = "musictheme" value="music1" checked>Theme 1</input><br>
                             <input type = "radio" name = "musictheme" value="music2">Theme 2</input><br>
                             <input type = "radio" name ="musictheme" value="music3">Theme 3</input><br>
                             <input type = "radio" name ="musictheme" value="none">Off</input>
+                        </div>
+                        </div>
                     </form>
                 </div>
                 <div class="col-md-4">
