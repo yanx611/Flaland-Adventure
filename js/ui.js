@@ -22,6 +22,10 @@ function displayContent(selector){
 	}
 }
 
+function changeName(){
+	var name_val = $("#name").val();
+	$("#name_pro").text(name_val + ": ");
+}
 
 $(document).ready(function(){
     $(".nav").hide();
@@ -34,4 +38,12 @@ $(document).ready(function(){
     $("#setting").click(function(){
     	displayContent("#setting");
     });
+
+    $("#name").change(function(){
+    	changeName();
+    })
+
+    $("form").submit(function(e){
+    	e.preventDefault();
+    })
 });
