@@ -242,7 +242,7 @@ class fallingShape
 			this.rotation-360;
 		if(this.Ypos>c.height+this.radius)
 		{
-			this.remove(1,0);
+			this.remove(1,0,true);
 		}
 		return vertex;
 	}
@@ -262,13 +262,15 @@ class fallingShape
 		addToRedraw(this);
 	}
 
-	remove(colCount,angle)
+	remove(colCount,angle, offScreen)
 	{
 		allShapes.splice(allShapes.indexOf(this),1);
-		if(colCount!=0||angle>90+angleTolerance||angle<90-angleTolerance)
+		if((colCount!=0||angle>90+angleTolerance||angle<90-angleTolerance)&&!offScreen)
 			badShapeRemoval(this.radius,this.sides);
-		else
+		else if(!offScreen)
 			goodShapeRemoval(this.radius,this.sides);
+		else
+			neutralRemoval();
 	}
 }
 
@@ -474,11 +476,11 @@ function collisionHandler(collisions)
 		{
 			if(i-1>=0)
 			{
-				allShapes[lastColId].remove(colCount,collisions[i-1].angle);
+				allShapes[lastColId].remove(colCount,collisions[i-1].angle,false);
 			}
 			else
 			{
-				allShapes[lastColId].remove(colCount,collisions[0].angle);
+				allShapes[lastColId].remove(colCount,collisions[0].angle,false);
 
 			}
 			colCount=0;
@@ -541,10 +543,17 @@ function badShapeRemoval(rad,sides)
 function goodShapeRemoval(rad,sides)
 {
 	score+=Math.floor(level*12+(12-sides)*10+(maxRadius-rad)*5);
-	document.getElementById("score").innerHTML="Score<br>"+score;
 	if(score>=level*2500)
 		levelUp();
+	document.getElementById("score").innerHTML="Score<br>"+score;
+	document.getElementById("progress").style.width=Math.floor(100*(score-(level-1)*2500)/(level*2500))+"%";
+	if (score >= 0) $("#progressval").text(Math.floor(100*(score-(level-1)*2500)/(level*2500)));
+	else $("#progressval").text(0);
+	
 }
+
+function neutralRemoval()
+{}
 
 
 function gameOver()
