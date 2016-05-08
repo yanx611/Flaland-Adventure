@@ -28,7 +28,8 @@ function changeName(){
 }
 
 $(document).ready(function(){
-    $(".nav").hide();
+    // $(".nav").hide();
+	displayContent("#about");
     $("#button").click(function(){
     	displayContent("#button");
     });

@@ -425,7 +425,7 @@ function gameStart()
 	allShapes=[]
 	mainCharacter= new mainChar();
 	levelUp();
-	pause(false);
+	pause(true);
 	newShape();
 	var intervalID= setInterval(redrawAll, 10);
 }
@@ -549,7 +549,7 @@ function goodShapeRemoval(rad,sides)
 	document.getElementById("progress").style.width=Math.floor(100*(score-(level-1)*2500)/(2500))+"%";
 	if (score >= 0) $("#progressval").text(Math.floor(100*(score-(level-1)*2500)/(2500)));
 	else $("#progressval").text(0);
-	
+
 }
 
 function neutralRemoval()
