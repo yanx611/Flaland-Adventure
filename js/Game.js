@@ -363,48 +363,14 @@ function keyPress(KeyState)
 		moveState= -1*KeyState;
 	if(e.keyCode==68||e.keyCode==100)
 		moveState=1*KeyState;
-	if(e.keyCode==27&&KeyState)
+	if(e.keyCode==27&&KeyState&&!gameOverState)
 		pause(!paused);
+	if(e.keyCode==27&&KeyState&&gameOverState)
+		gameStart();
 
 
 }
 
-function keyPress1(KeyState)
-{
-	var e=e||event;
-	switch(e.keyCode)
-	{
-		case 37: //left
-		{	//roation sign, position sign
-			mainCharacter.updateRotVal(-1,KeyState);
-			break;
-		}
-		case 39: //right
-		{
-			mainCharacter.updateRotVal(1,KeyState);
-			break;
-		}
-		case 65://A
-		case 97:
-		{
-			mainCharacter.updateMoveVal(-1,KeyState);
-			break;
-		}
-		case 68://D
-		case 100:
-		{
-			mainCharacter.updateMoveVal(1,KeyState);
-			break;
-		}
-		break;
-		case 38: //up
-		case 40: //down
-		default:
-		{
-			break;
-		}
-	}
-}
 
 function gameStart()
 {
@@ -420,21 +386,32 @@ function gameStart()
 	minRot=-1.25;
 	angleTolerance=45;
 	minX=maxRadius;
+	for(var i=1; i<allShapes.length;i++)
+	{
+		allShapes[i].remove(1,1,true)
+	}
 	document.getElementById("health").style.width =100+'%';
 	maxX=c.width-maxRadius;
 	allShapes=[]
 	mainCharacter= new mainChar();
 	levelUp();
-	pause(true);
 	newShape();
-	var intervalID= setInterval(redrawAll, 10);
+	if(!gameOverState)
+	{
+		var intervalID= setInterval(redrawAll, 10);
+		pause(true);
+	}
+	else
+	{
+		pause(false);
+	}
+	gameOverState=false;
 }
 
 function onloadHandler(){
 	c=document.getElementById("myCanvas");
 	ctx=c.getContext("2d");
 	gameStart();
-
 }
 
 function levelUp()
@@ -451,7 +428,6 @@ function levelUp()
 
 		startSpeed = 0.1*level+1;
 		document.getElementById("level").innerHTML="Level<br>"+level;
-
 	}
 	else
 	{
@@ -533,7 +509,7 @@ function pause(pauseVal)
 
 function badShapeRemoval(rad,sides)
 {
-	health=Math.floor(health-(13-sides)*rad*0.025);
+	health=Math.floor(health-*(13-sides)*rad*0.025);
 	health=(health<0)? 0:health;
 	document.getElementById("health").style.width =health+'%';
 	(health<=0)? gameOver():0;
@@ -549,7 +525,6 @@ function goodShapeRemoval(rad,sides)
 	document.getElementById("progress").style.width=Math.floor(100*(score-(level-1)*2500)/(2500))+"%";
 	if (score >= 0) $("#progressval").text(Math.floor(100*(score-(level-1)*2500)/(2500)));
 	else $("#progressval").text(0);
-
 }
 
 function neutralRemoval()
