@@ -378,6 +378,8 @@ function gameStart()
 	score=0;
 	timeSinceLastShape=0;
 	health=100;
+	document.getElementById("health").className = "progress-bar progress-bar-success";
+	$("#healthval").text(100)
 	moveState=0;
 	rotState=0;
 	maxRadius=45;
@@ -395,6 +397,10 @@ function gameStart()
 	allShapes=[]
 	mainCharacter= new mainChar();
 	levelUp();
+	document.getElementById("score").innerHTML="Score<br>"+score;
+	document.getElementById("progress").style.width=Math.floor(100*(score-(level-1)*2500)/(2500))+"%";
+	if (score >= 0) $("#progressval").text(Math.floor(100*(score-(level-1)*2500)/(2500)));
+	else $("#progressval").text(0);
 	newShape();
 	if(!gameOverState)
 	{
@@ -509,16 +515,21 @@ function pause(pauseVal)
 
 function badShapeRemoval(rad,sides)
 {
-	health=Math.floor(health-*(13-sides)*rad*0.025);
+	health=Math.floor(health-(13-sides)*rad*0.025);
 	health=(health<0)? 0:health;
 	document.getElementById("health").style.width =health+'%';
+	
+	if (health<66&&health>=33) document.getElementById("health").className = "progress-bar progress-bar-warning";
+	else if (health<33) document.getElementById("health").className = "progress-bar progress-bar-danger";
+	else document.getElementById("health").className = "progress-bar progress-bar-success";
+	
 	(health<=0)? gameOver():0;
 	if (health >= 0) $("#healthval").text(Math.floor(health));
 	else $("#healthval").text(Math.floor(0));
 }
 function goodShapeRemoval(rad,sides)
 {
-	score+=Math.floor(level*12+(12-sides)*10+(maxRadius-rad)*5);
+	score+=Math.floor((level+2)*12+(12-sides)*10+(maxRadius-rad)*5);
 	if(score>=level*2500)
 		levelUp();
 	document.getElementById("score").innerHTML="Score<br>"+score;
