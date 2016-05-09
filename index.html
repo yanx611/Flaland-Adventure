@@ -19,7 +19,7 @@
         <title>Flatland Adventure</title>
     </head>
 
-    <body onload="onloadHandler()" onkeydown="keyPress(1)" onkeyup="keyPress(0)" onkeypress="keyPress(1)">
+    <body onload="onloadHandler(), darkeyes()" onkeydown="keyPress(1)" onkeyup="keyPress(0)" onkeypress="keyPress(1)">
         <div class="fluid-container">
             <div class="row">
                 <div class="col-md-offset-1 col-md-10">
@@ -65,11 +65,12 @@
                         </div></div>
                          <div class="row">
                             <div class="col-md-4">
-                            <label>Music</lable><br>
-                            <input type = "radio" name = "musictheme" value="music1" checked>Theme 1</input><br>
-                            <input type = "radio" name = "musictheme" value="music2">Theme 2</input><br>
-                            <input type = "radio" name ="musictheme" value="music3">Theme 3</input><br>
-                            <input type = "radio" name ="musictheme" value="none">Off</input>
+                            
+                            <label>Music</label><br>
+                            <button type = "button" onclick="darkeyes()"  value="1" >Theme 1</button><br>
+                            <button type = "button" onclick="cossacks()"  value="2">Theme 2</button><br>
+                            <button type = "button" name ="musictheme" value="3">Theme 3</button><br>
+                            <button type = "button" onclick="muteall()" value="4">Off</button>
                         </div>
                         </div>
                     </form>
