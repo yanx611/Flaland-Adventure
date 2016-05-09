@@ -14,7 +14,6 @@ h1 {
 	padding-top: 20px;
 	margin: 0px;
 }
-
 code {
 	color: #000099;
 }
@@ -24,6 +23,14 @@ div{
 }
 .btn{
 	border-radius: 0px;
+}
+
+.b{
+	margin: 0px;
+	padding: 0px;
+	background-color: #555;
+	border: none;
+	border-radius: 5px;
 }
 
 ul{
