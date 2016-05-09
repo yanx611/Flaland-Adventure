@@ -3,9 +3,9 @@
 var dark = document.createElement('audio');   
 var cossack = document.createElement('audio');
 var kazanka = document.createElement('audio');
-cossack.setAttribute('src','cossack.wav');
-dark.setAttribute('src', '8bit.wav');
-kazanka.setAttribute('src','kazanka.wav');
+cossack.setAttribute('src','sound/cossack.wav');
+dark.setAttribute('src', 'sound/8bit.wav');
+kazanka.setAttribute('src','sound/kazanka.wav');
 
 function darkeyes()
 
