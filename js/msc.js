@@ -24,7 +24,7 @@ cossack.play();
 cossack.loop=true;
  }
  
- function kaza
+ function kaza ()
  {
  dark.pause();
  cossack.pause();
